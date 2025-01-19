@@ -61,9 +61,6 @@ namespace Game2D.Client
             transform.rotation = Quaternion.Euler(x, y, z);
         }
 
-
-
-
     }
 
 }

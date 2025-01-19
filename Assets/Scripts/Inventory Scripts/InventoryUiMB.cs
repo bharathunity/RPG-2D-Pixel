@@ -9,7 +9,8 @@ namespace Game2D.Client
     public class InventoryUiMB : MonoBehaviour
     {
         [SerializeField] WeaponManagerMB    m_WeaponManagerMB;
-        [SerializeField] Image              m_WeaponUseImage;
+        [SerializeField] Image              m_EquippedWeapon_Image;
+        [SerializeField] int                m_EquippedWeapon_Index;
         [SerializeField] Transform[]        m_Weapons;
         [SerializeField] Sprite[]           m_WeaponsSprite;
 
@@ -30,8 +31,10 @@ namespace Game2D.Client
             }
             m_Weapons[index].GetChild(0).gameObject.SetActive(true);
 
-            // m_WeaponUseImage.transform.parent.gameObject.SetActive(true);
-            m_WeaponUseImage.sprite = m_WeaponsSprite[index];
+            // Image from the Right Joystick Knob handle
+            m_EquippedWeapon_Image.sprite = m_WeaponsSprite[index];
+
+            m_EquippedWeapon_Index = index;
 
             m_WeaponManagerMB.ChooseWeaponFromList(index);
         }

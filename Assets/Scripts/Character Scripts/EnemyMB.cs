@@ -109,8 +109,8 @@ namespace Game2D.Client
             if(m_MoveEnemy == false) 
                 return;
             m_Direction = new Vector2(
-                Random.Range(-5,5),
-                Random.Range(-5,5));
+                Random.Range(-25,25),
+                Random.Range(-25,25));
         }
 
         

@@ -37,7 +37,9 @@ namespace Game2D.Client
         /// <summary>
         /// Character
         /// </summary>
-        Character m_Character;
+        Character character;
+
+        Player player;
 
         [SerializeField] WeaponManagerMB    m_WeaponManagerMB;
         [SerializeField] Rigidbody2D        m_Rigidbody2D;
@@ -46,7 +48,8 @@ namespace Game2D.Client
         [SerializeField] Animator           m_Animator;
         [SerializeField] AudioSource        m_AudioSource;
         [SerializeField] int                m_EnemyKillCount = 0;
-        
+        [SerializeField] int                m_CurrentHealth;
+
 
         /// <summary>
         /// Move Direction.
@@ -71,13 +74,18 @@ namespace Game2D.Client
             PlayerMBSignature -= UpdatePlayerPoints;
         }
 
+
+
         void Start()
         {
             try
             {
                 GameSceneManagerMB.Instance.ResumeGame();
-                m_Character = m_characterFactory.GetCharacter(this.tag.ToString());
-                Debug.Log($"Character : {m_Character}");
+                character = m_characterFactory.GetCharacter(this.tag.ToString());
+                player = character as Player;
+                m_CurrentHealth = player.MaxHealth;
+                PlayerDataInfoUiMB.Instance.UpdatePlayerSlider(m_CurrentHealth);
+                Debug.Log($"Character : {character}");
                 SetPlayerState(State.Idle);
             }
             catch
@@ -90,6 +98,15 @@ namespace Game2D.Client
         {
             if(collision.collider.tag == "Enemy")
             {
+                if(m_CurrentHealth > 0)
+                {
+                    m_CurrentHealth -= 5;
+                }
+                if(m_CurrentHealth <= 0)
+                {
+                    m_CurrentHealth = player.MaxHealth;
+                }
+                PlayerDataInfoUiMB.Instance.UpdatePlayerSlider(m_CurrentHealth);
                 Debug.Log("Player collided with the enemy!");
             }
         }
@@ -123,16 +140,16 @@ namespace Game2D.Client
                 }
 
                 // Player direction (Left or Right)
-                Vector2 direction = InputControllerMB.Instance.Input_Controller.BowArrow.Movement.ReadValue<Vector2>();
+                Vector2 direction = InputControllerMB.Instance.Input_Controller.Player.Direction.ReadValue<Vector2>();
                 if (direction.x < -0.01)
                 {
                     m_SpriteRenderer.flipX = true;
-                    m_Character.AdjustDirection(-1, m_WeaponManagerMB, m_SpriteRenderer);
+                    character.AdjustDirection(-1, m_WeaponManagerMB, m_SpriteRenderer);
                 }
                 else if (direction.x > 0.01)
                 {
                     m_SpriteRenderer.flipX = false;
-                    m_Character.AdjustDirection(1, m_WeaponManagerMB, m_SpriteRenderer);
+                    character.AdjustDirection(1, m_WeaponManagerMB, m_SpriteRenderer);
                 }
 
                 /*// Sword
@@ -162,7 +179,7 @@ namespace Game2D.Client
         {
             if (playerState != State.Death)
             {
-                m_Character.Move(m_Rigidbody2D, m_MovementDirection, m_MoveSpeed);
+                character.Move(m_Rigidbody2D, m_MovementDirection, m_MoveSpeed);
             }
         }
         #endregion
@@ -170,7 +187,17 @@ namespace Game2D.Client
 
         void UpdatePlayerPoints()
         {
-            m_EnemyKillCount += 1;
+            if (m_EnemyKillCount < 100)
+            {
+                m_EnemyKillCount += 1;
+                PlayerDataInfoUiMB.Instance.UpdateEnemy1KillCount_Text(m_EnemyKillCount);
+            }
+            else
+            {
+                Debug.Log("<color=yellow>Max kill count is 99</yellow>");
+            }
+            
+            
         }
 
         
