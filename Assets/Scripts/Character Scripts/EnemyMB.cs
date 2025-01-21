@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace Game2D.Client
         [SerializeField] byte           m_HitCount = 0;
         [SerializeField] float          m_Speed = 5;
         [SerializeField] Vector2        m_Direction;
+        [SerializeField] CinemachineImpulseSource m_CinemachineImpulseSource;
 
 
         #region Monobehaviour callbacks
@@ -42,12 +44,12 @@ namespace Game2D.Client
             try
             {
                 m_Character = m_characterFactory.GetCharacter(this.tag.ToString());
-                Debug.Log($"Character : {m_Character}");
+                // Debug.Log($"Character : {m_Character}");
                 m_Direction = new Vector2(transform.position.x, transform.position.y);
             }
             catch
             {
-                Debug.Log("<color=red>Null exception</color>");
+                // Debug.Log("<color=red>Null exception</color>");
             }
         }
 
@@ -59,18 +61,26 @@ namespace Game2D.Client
             {
                 UpdateHitCount(collider, null);   
             }
+            if (collider.tag == "Obstacle")
+            {
+                UpdateDirection();
+            }
+            if (collider.tag == "Arrow")
+            {
+                UpdateHitCount(collider, null);
+            }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if(collision.collider.tag == "Obstacle")
+            /*if(collision.collider.tag == "Obstacle")
             {
                 UpdateDirection();
             }
             if(collision.collider.tag == "Arrow")
             {
                 UpdateHitCount(null, collision);
-            }
+            }*/
             
         }
 
@@ -82,7 +92,8 @@ namespace Game2D.Client
                 m_HitCount = 0;
                 m_ParticleSystem.Play();
                 GameSceneManagerMB.Instance.UpdatePlayerPoints(new Player());
-                Destroy(gameObject, 0.25f);
+                CinemachineShakeManager.Instance.CameraShake(m_CinemachineImpulseSource);
+                Destroy(gameObject, 0.15f);
             }
             if(collider != null)
             {

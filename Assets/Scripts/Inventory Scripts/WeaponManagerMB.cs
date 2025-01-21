@@ -32,6 +32,13 @@ namespace Game2D.Client
                 m_CurrentWeaponMB.gameObject.SetActive(false);
                 m_CurrentWeaponMB = null;
             }
+
+            /*if(m_CurrentWeaponMB != null && (int)m_CurrentWeaponMB.type == index)
+            {
+                m_CurrentWeaponMB.gameObject.SetActive(false);
+                m_CurrentWeaponMB = null;
+                return null;
+            }*/
             
             // Update current weapon
             m_CurrentWeaponMB = m_WeaponsMB[index];

@@ -1,4 +1,5 @@
-1. Enemy kill count is not updating.
-# Fixed -> GameSceneManagerMB.cs -> UpdatePlayerPoints()
+>. Arrow on colliding with the Enemy or obstacle will get's destroyed.
 
-2. 
+>. Enemy on gets attacked/slacked from the sword will gets destroyed and will increase the kill count
+
+>. Player on collides with the enemy will decrese the health.

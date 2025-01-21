@@ -23,21 +23,22 @@ namespace Game2D.Client
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.collider.CompareTag("Enemy"))
+            /*if (collision.collider.CompareTag("Enemy") || collision.collider.CompareTag("Obstacle"))
             {
                 // GameSceneManagerMB.Instance.UpdatePlayerPoints(new Player());
                 Destroy(gameObject);
-            }
+            }*/
             
         }
 
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("Obstacle"))
+            if (collision.CompareTag("Obstacle") || collision.CompareTag("Enemy"))
             {
                 Destroy(gameObject);
             }
+
         }
 
 
