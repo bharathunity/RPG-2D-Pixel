@@ -41,7 +41,7 @@ namespace Game2D.Client
         {
             if (collision.tag == "Enemy")
             {
-                m_WeaponManagerMB.StopAudio();
+                // m_WeaponManagerMB.StopAudio();
             }
         }
 
@@ -69,11 +69,7 @@ namespace Game2D.Client
             InAttack = false;
         }
 
-        public void DoneAttacking()
-        {
-            
-        }
-
+      
         /// <summary>
         /// Attach this to the Animation Event
         /// </summary>

@@ -31,6 +31,10 @@ namespace Game2D.Client
             }
             m_Weapons[index].GetChild(0).gameObject.SetActive(true);
 
+            if (!m_EquippedWeapon_Image.gameObject.activeInHierarchy) 
+            {
+                m_EquippedWeapon_Image.transform.parent.gameObject.SetActive(true);
+            }
             // Image from the Right Joystick Knob handle
             m_EquippedWeapon_Image.sprite = m_WeaponsSprite[index];
 

@@ -3,3 +3,7 @@
 >. Enemy on gets attacked/slacked from the sword will gets destroyed and will increase the kill count
 
 >. Player on collides with the enemy will decrese the health.
+
+>. Info on how to what do in Game scene, with a button of question mark on top right of the canvas!
+
+>. Area(ground) size shrinked to 20x20

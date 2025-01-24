@@ -20,12 +20,13 @@ namespace Game2D.Client
         /// </summary>
         Character m_Character;
 
-        [SerializeField] bool           m_MoveEnemy;
-        [SerializeField] ParticleSystem m_ParticleSystem;
-        [SerializeField] byte           m_HitCount = 0;
-        [SerializeField] float          m_Speed = 5;
-        [SerializeField] Vector2        m_Direction;
-        [SerializeField] CinemachineImpulseSource m_CinemachineImpulseSource;
+        [SerializeField] bool                       m_MoveEnemy;
+        [SerializeField] ParticleSystem             m_ParticleSystem;
+        [SerializeField] byte                       m_HitCount = 0;
+        [SerializeField] float                      m_Speed = 5;
+        [SerializeField] Vector2                    m_Direction;
+        [SerializeField] CinemachineImpulseSource   m_CinemachineImpulseSource;
+        [SerializeField] PlayerMB                   m_PlayerMB_Script;
 
 
         #region Monobehaviour callbacks
@@ -36,7 +37,8 @@ namespace Game2D.Client
 
         private void OnEnable()
         {
-            InvokeRepeating(nameof(UpdateDirection), 0, 2f);  
+            // InvokeRepeating(nameof(CalculateDirectionAsynchronously), 0, 2f);  
+            CalculateDirectionAsynchronously();
         }
 
         void Start()
@@ -44,8 +46,13 @@ namespace Game2D.Client
             try
             {
                 m_Character = m_characterFactory.GetCharacter(this.tag.ToString());
+                m_PlayerMB_Script = GameObject.FindObjectOfType<PlayerMB>();
+
                 // Debug.Log($"Character : {m_Character}");
-                m_Direction = new Vector2(transform.position.x, transform.position.y);
+                // m_Direction = new Vector2(transform.position.x, transform.position.y);
+                m_Direction = new Vector2(Random.Range(-20, 20),
+                                            Random.Range(-20, 20));
+                CalculateDistanceAsync();
             }
             catch
             {
@@ -63,25 +70,12 @@ namespace Game2D.Client
             }
             if (collider.tag == "Obstacle")
             {
-                UpdateDirection();
+                CalculateDirectionAsynchronously();
             }
             if (collider.tag == "Arrow")
             {
                 UpdateHitCount(collider, null);
             }
-        }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            /*if(collision.collider.tag == "Obstacle")
-            {
-                UpdateDirection();
-            }
-            if(collision.collider.tag == "Arrow")
-            {
-                UpdateHitCount(null, collision);
-            }*/
-            
         }
 
         private void UpdateHitCount(Collider2D collider = null, Collision2D collision = null)
@@ -93,7 +87,7 @@ namespace Game2D.Client
                 m_ParticleSystem.Play();
                 GameSceneManagerMB.Instance.UpdatePlayerPoints(new Player());
                 CinemachineShakeManager.Instance.CameraShake(m_CinemachineImpulseSource);
-                Destroy(gameObject, 0.15f);
+                StartCoroutine(DestroyGameObject());
             }
             if(collider != null)
             {
@@ -107,24 +101,64 @@ namespace Game2D.Client
         private void Update()
         {
             transform.position = Vector2.MoveTowards(transform.position, m_Direction, Time.deltaTime * m_Speed);
-            if (Mathf.Approximately(transform.position.x, m_Direction.x))
+            /*if (Mathf.Approximately(transform.position.x, m_Direction.x))
             {
-                UpdateDirection();
-            }
+                // CalculateDirectionAsynchronously();
+            }*/
         }
         #endregion
 
 
-        void UpdateDirection()
+        bool directionCalculating = true;
+        async void CalculateDirectionAsynchronously()
         {
             if(m_MoveEnemy == false) 
                 return;
-            m_Direction = new Vector2(
-                Random.Range(-25,25),
-                Random.Range(-25,25));
+
+            while (directionCalculating)
+            {
+                await Task.Delay(5000);
+                m_Direction = new Vector2(Random.Range(-20, 20),
+                                            Random.Range(-20, 20));
+            }
+            
         }
 
-        
+        bool distanceCalculating = true;
+        [SerializeField] float  m_Distance;
+        [SerializeField] bool   m_PlayerAsTarget;
+
+        async void CalculateDistanceAsync()
+        {
+            while (distanceCalculating)
+            {
+                if (m_PlayerMB_Script != null)
+                {
+                    m_Distance = Vector2.Distance(transform.position, m_PlayerMB_Script.transform.position);
+                    if (m_Distance < 3)
+                    {
+                        m_Direction = new Vector2(m_PlayerMB_Script.transform.position.x, m_PlayerMB_Script.transform.position.y);
+                        m_PlayerAsTarget = true;
+                    }
+                    else
+                    {
+                        m_PlayerAsTarget = false;
+                    }
+                }
+                await Task.Delay(200); 
+                
+            }
+        }
+
+        IEnumerator DestroyGameObject()
+        {
+            distanceCalculating = false;    
+            yield return new WaitForSeconds(0.02f);
+            Destroy(gameObject);
+
+        }
+
+
     }
 }
 

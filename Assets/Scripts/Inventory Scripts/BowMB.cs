@@ -26,7 +26,14 @@ namespace Game2D.Client
 
         private void OnEnable()
         {
-            transform.rotation = Quaternion.Euler(0, 0, lastRotationDegree);
+            if (m_Player_SpriteRenderer.flipX)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 180f);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
         }
 
         public override void Attack()
@@ -37,21 +44,6 @@ namespace Game2D.Client
                     return;
 
                 ArrowMB arrowObject = Instantiate(m_Arrow_Prefab, transform.position + transform.right, transform.rotation);
-                /*if (m_SpriteRenderer.flipX)
-                {
-                    
-                    arrowObject = Instantiate(m_Arrow_Prefab, transform.position - transform.right, transform.rotation);
-                    arrowObject.transform.rotation = Quaternion.Euler(0, 180f,0);
-                    // arrowObject.GetComponent<SpriteRenderer>().flipX = true;
-                }
-                else
-                {
-                    arrowObject = Instantiate(m_Arrow_Prefab, transform.position + transform.right, transform.rotation);
-                    arrowObject.transform.rotation = Quaternion.Euler(0, 0f, 0);
-                    // arrowObject.GetComponent<SpriteRenderer>().flipX = false;
-                }*/
-                
-
                 m_arrowInstantiated = true;
                 StartCoroutine(ResetArrowInstantiatingFlag());
 
@@ -62,31 +54,11 @@ namespace Game2D.Client
         {
             Vector2 moveDirection = InputControllerMB.Instance.Input_Controller.BowArrow.Movement.ReadValue<Vector2>();
 
-            if (m_Player_SpriteRenderer.flipX)
-            {
-                if (moveDirection == Vector2.zero)
-                {
-                    rotationDegree = 180f;
-                }
-                else
-                {
-                    rotationDegree = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
-                }
-            }
-            else if(!m_Player_SpriteRenderer.flipX)
-            {
-                rotationDegree = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
-            }
-            transform.rotation = Quaternion.Euler(0, 0, rotationDegree);
-        }
+            if (!RightJoystickMB.Instance.InUse)
+                return;
 
-        public void ResetBowLastRotationValue()
-        {
-            if (m_Player_SpriteRenderer.flipX == true)
-            {
-                
-                lastRotationStored = false;
-            }
+            rotationDegree = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, rotationDegree);
         }
 
         /// <summary>

@@ -12,9 +12,10 @@ namespace Game2D.Client
         public static GameSceneUiManagerMB  Instance;
 
         [SerializeField] FingerSwipeDetectionMB m_FingerSwipeDetectionMB;
-        [SerializeField] Button                 m_Hamburger_Button;
+        [SerializeField] Button                 m_Profile_Button;
         [SerializeField] Transform              m_ExitPanel;
         [SerializeField] Transform              m_RightJoystick;
+        [SerializeField] Transform              m_LevelInfoPanel;
 
         #region Monobehaviour callbacks
 
@@ -30,18 +31,21 @@ namespace Game2D.Client
 
         private void OnEnable()
         {
-            m_Hamburger_Button.onClick.AddListener(ToggleExitPanel);
+            m_Profile_Button.onClick.AddListener(ToggleExitPanel);
         }
 
         private void OnDisable()
         {
-            m_Hamburger_Button.onClick.RemoveListener(ToggleExitPanel);
+            m_Profile_Button.onClick.RemoveListener(ToggleExitPanel);
         }
 
         // Start is called before the first frame update
         void Start()
         {
-
+            if (m_LevelInfoPanel.gameObject.activeInHierarchy)
+            {
+                m_LevelInfoPanel.gameObject.SetActive(true);
+            }
         }
         #endregion
 

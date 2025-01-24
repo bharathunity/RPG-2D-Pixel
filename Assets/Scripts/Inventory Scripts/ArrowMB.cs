@@ -42,6 +42,15 @@ namespace Game2D.Client
         }
 
 
+        private void Update()
+        {
+            if(transform.position.x > 25f || transform.position.x < -25f)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+
         private void FixedUpdate()
         {
             m_rigidbody2D.velocity = (transform.right) * m_BulletSpeed;
