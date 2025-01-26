@@ -51,11 +51,10 @@ namespace Game2D.Client
             {
                 m_Animator.SetTrigger("sword");
             }
-        }
-
-        public override void Rotate()
-        {
-            
+            /*else
+            {
+                m_Animator.ResetTrigger("sword");
+            }*/
         }
 
         public void SwingStarted()

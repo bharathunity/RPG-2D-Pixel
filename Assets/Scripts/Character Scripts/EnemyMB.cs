@@ -21,7 +21,6 @@ namespace Game2D.Client
         Character m_Character;
 
         [SerializeField] bool                       m_MoveEnemy;
-        [SerializeField] ParticleSystem             m_ParticleSystem;
         [SerializeField] byte                       m_HitCount = 0;
         [SerializeField] float                      m_Speed = 5;
         [SerializeField] Vector2                    m_Direction;
@@ -37,7 +36,6 @@ namespace Game2D.Client
 
         private void OnEnable()
         {
-            // InvokeRepeating(nameof(CalculateDirectionAsynchronously), 0, 2f);  
             CalculateDirectionAsynchronously();
         }
 
@@ -48,10 +46,9 @@ namespace Game2D.Client
                 m_Character = m_characterFactory.GetCharacter(this.tag.ToString());
                 m_PlayerMB_Script = GameObject.FindObjectOfType<PlayerMB>();
 
-                // Debug.Log($"Character : {m_Character}");
-                // m_Direction = new Vector2(transform.position.x, transform.position.y);
                 m_Direction = new Vector2(Random.Range(-20, 20),
                                             Random.Range(-20, 20));
+
                 CalculateDistanceAsync();
             }
             catch
@@ -84,9 +81,8 @@ namespace Game2D.Client
             if (m_HitCount >= 3)
             {
                 m_HitCount = 0;
-                m_ParticleSystem.Play();
-                GameSceneManagerMB.Instance.UpdatePlayerPoints(new Player());
-                CinemachineShakeManager.Instance.CameraShake(m_CinemachineImpulseSource);
+                GameManagerMB.Instance.UpdatePlayerPoints(new Player());
+                CinemachineShakeManagerMB.Instance.CameraShake(m_CinemachineImpulseSource);
                 StartCoroutine(DestroyGameObject());
             }
             if(collider != null)
@@ -101,10 +97,6 @@ namespace Game2D.Client
         private void Update()
         {
             transform.position = Vector2.MoveTowards(transform.position, m_Direction, Time.deltaTime * m_Speed);
-            /*if (Mathf.Approximately(transform.position.x, m_Direction.x))
-            {
-                // CalculateDirectionAsynchronously();
-            }*/
         }
         #endregion
 

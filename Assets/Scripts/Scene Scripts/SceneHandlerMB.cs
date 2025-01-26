@@ -12,7 +12,8 @@ namespace Game2D.Client
         public enum Name
         {
             Start = 0,
-            Game = 1
+            Lobby = 1,
+            Level1 = 2
         }
 
         [SerializeField] Name m_ToSceneName;
@@ -31,7 +32,6 @@ namespace Game2D.Client
 
         void ToScene()
         {
-            Task.Delay(2000);
             SceneManager.LoadSceneAsync((int)m_ToSceneName);
         }
 

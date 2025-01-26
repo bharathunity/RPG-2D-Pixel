@@ -19,6 +19,14 @@ namespace Game2D.Client
 
         }
 
+        private void Update()
+        {
+            if(m_WeaponManagerMB == null)
+            {
+                m_WeaponManagerMB = FindObjectOfType<WeaponManagerMB>();
+            }
+        }
+
 
         /// <summary>
         /// Attach this to Each Inventory item OnButtonClick() event.

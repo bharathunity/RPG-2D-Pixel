@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 
 namespace Game2D.Client
@@ -16,6 +17,9 @@ namespace Game2D.Client
         [SerializeField] Transform              m_ExitPanel;
         [SerializeField] Transform              m_RightJoystick;
         [SerializeField] Transform              m_LevelInfoPanel;
+        [SerializeField] Transform              m_LevelInfoPanelCompleted_TMP;
+        [SerializeField] Transform              m_Reward_Image;
+        
 
         #region Monobehaviour callbacks
 
@@ -27,7 +31,6 @@ namespace Game2D.Client
             }
             Instance = this;
         }
-
 
         private void OnEnable()
         {
@@ -42,10 +45,7 @@ namespace Game2D.Client
         // Start is called before the first frame update
         void Start()
         {
-            if (m_LevelInfoPanel.gameObject.activeInHierarchy)
-            {
-                m_LevelInfoPanel.gameObject.SetActive(true);
-            }
+            Invoke(nameof(ToggleLevelInfoPanel), 2);
         }
         #endregion
 
@@ -57,11 +57,11 @@ namespace Game2D.Client
             {
                 case true:
                     m_ExitPanel.gameObject.SetActive(false);
-                    GameSceneManagerMB.Instance.ResumeGame();
+                    //GameManagerMB.Instance.ResumeGame();
                     break;
                 case false:
                     m_ExitPanel.gameObject.SetActive(true);
-                    GameSceneManagerMB.Instance.PauseGame();
+                    //GameManagerMB.Instance.PauseGame();
                     break;
             }
             
@@ -75,6 +75,26 @@ namespace Game2D.Client
         public void ToggleFingerSwipePanel_Script(bool value)
         {
             m_FingerSwipeDetectionMB.gameObject.SetActive(value);
+        }
+
+        public void ToggleLevelInfoPanel()
+        {
+            switch (m_LevelInfoPanel.gameObject.activeInHierarchy)
+            {
+                case true:
+                    m_LevelInfoPanel.gameObject.SetActive(false);
+                    break;
+                case false:
+                    m_LevelInfoPanel.gameObject.SetActive(true);
+                    break;   
+            }
+        }
+
+        public void ToggleLevelInfoPanelCompleted_TMP(bool value, string output)
+        {
+            m_LevelInfoPanelCompleted_TMP.gameObject.SetActive(value);
+            m_LevelInfoPanelCompleted_TMP.GetComponent<TMP_Text>().text = output;
+            // m_Reward_Image.gameObject.SetActive(value);
         }
         #endregion
 

@@ -7,3 +7,8 @@
 >. Info on how to what do in Game scene, with a button of question mark on top right of the canvas!
 
 >. Area(ground) size shrinked to 20x20
+
+>. Sorting layer order for the sword is updating during the swing start and swing end.
+
+>? Need to work on lobby scene.
+>? In the Lobby we have optiions to select the Levels. based on the selection particular Level will be loaded.

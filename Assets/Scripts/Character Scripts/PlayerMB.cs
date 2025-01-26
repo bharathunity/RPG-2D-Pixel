@@ -47,7 +47,6 @@ namespace Game2D.Client
         [SerializeField] SpriteRenderer     m_SpriteRenderer;
         [SerializeField] Animator           m_Animator;
         [SerializeField] AudioSource        m_AudioSource;
-        [SerializeField] int                m_EnemyKillCount = 0;
         [SerializeField] int                m_CurrentHealth;
 
 
@@ -56,6 +55,7 @@ namespace Game2D.Client
         /// </summary>
         [SerializeField] Vector2 m_MovementDirection;
 
+        [field : SerializeField] public int EnemyKillCount { get; private set; }
         
 
         #region Monobehaviour callbacks
@@ -80,13 +80,14 @@ namespace Game2D.Client
         {
             try
             {
-                GameSceneManagerMB.Instance.ResumeGame();
+                GameManagerMB.Instance.ResumeGame();
                 character = m_characterFactory.GetCharacter(this.tag.ToString());
                 player = character as Player;
                 m_CurrentHealth = player.MaxHealth;
                 PlayerDataInfoUiMB.Instance.UpdatePlayerSlider(m_CurrentHealth);
-                Debug.Log($"Character : {character}");
+                //Debug.Log($"Character : {character}");
                 SetPlayerState(State.Idle);
+                CinemachineCameraManagerMB.Instance.UpdateTarget(transform);
             }
             catch
             {
@@ -107,7 +108,7 @@ namespace Game2D.Client
                     m_CurrentHealth = player.MaxHealth;
                 }
                 PlayerDataInfoUiMB.Instance.UpdatePlayerSlider(m_CurrentHealth);
-                Debug.Log("Player collided with the enemy!");
+                //Debug.Log("Player collided with the enemy!");
             }
         }
 
@@ -187,10 +188,18 @@ namespace Game2D.Client
 
         void UpdatePlayerPoints()
         {
-            if (m_EnemyKillCount < 100)
+            if (EnemyKillCount < 100)
             {
-                m_EnemyKillCount += 1;
-                PlayerDataInfoUiMB.Instance.UpdateEnemy1KillCount_Text(m_EnemyKillCount);
+                EnemyKillCount += 1;
+
+                PlayerDataInfoUiMB.Instance.UpdateEnemy1KillCount_Text(EnemyKillCount);
+                if(GameManagerMB.Instance.GameLevel == GameManagerMB.Level.one)
+                {
+                    if(EnemyKillCount == 5)
+                    {
+                        GameManagerMB.Instance.OnLevelCompleted();
+                    }
+                }
             }
             else
             {
