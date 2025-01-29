@@ -24,7 +24,12 @@ namespace Game2D.Client
             m_CurrentWeaponMB.Rotate();
         }
 
-        public WeaponMB ChooseWeaponFromList(int index)
+        /// <summary>
+        /// Update the weapon on the Player
+        /// </summary>
+        /// <param name="index">integer</param>
+        /// <returns></returns>
+        public WeaponMB UpdateWeaponOnPlayer(int index)
         {
             // Check for current weapon MB script
             if(m_CurrentWeaponMB != null)
@@ -33,13 +38,6 @@ namespace Game2D.Client
                 m_CurrentWeaponMB = null;
             }
 
-            /*if(m_CurrentWeaponMB != null && (int)m_CurrentWeaponMB.type == index)
-            {
-                m_CurrentWeaponMB.gameObject.SetActive(false);
-                m_CurrentWeaponMB = null;
-                return null;
-            }*/
-            
             // Update current weapon
             m_CurrentWeaponMB = m_WeaponsMB[index];
 

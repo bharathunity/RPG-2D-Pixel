@@ -63,7 +63,7 @@ namespace Game2D.Client
         public void OnLevelCompleted()
         {
             GameSceneUiManagerMB.Instance.ToggleLevelInfoPanel();
-            GameSceneUiManagerMB.Instance.ToggleLevelInfoPanelCompleted_TMP(true, "COMPLETED IN "+PlayTimeMB.Instance.m_Timer_TMPText.text + "s");
+            GameSceneUiManagerMB.Instance.ToggleLevelInfoPanelCompleted_TMP(true, "FINISHED IN "+PlayTimeMB.Instance.m_Timer_TMPText.text + "s");
             GameSceneUiManagerMB.Instance.ToggleExitPanel();
         }
 

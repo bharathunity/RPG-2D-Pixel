@@ -8,11 +8,19 @@ namespace Game2D.Client
 {
     public class InventoryUiMB : MonoBehaviour
     {
+
+        public static InventoryUiMB Instance;
+
         [SerializeField] WeaponManagerMB    m_WeaponManagerMB;
         [SerializeField] Image              m_EquippedWeapon_Image;
-        [SerializeField] int                m_EquippedWeapon_Index;
+        //[SerializeField] int                m_EquippedWeapon_Index;
         [SerializeField] Transform[]        m_Weapons;
         [SerializeField] Sprite[]           m_WeaponsSprite;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
 
         void Start()
         {
@@ -27,12 +35,23 @@ namespace Game2D.Client
             }
         }
 
+        /// <summary>
+        /// Enable or Disable weapon UI on the canvas space.
+        /// </summary>
+        /// <param name="index">
+        /// 0 -> Sword
+        /// 1 -> Bow
+        /// </param>
+        public void ToggleWeaponUiFromInventory(int index, bool value)
+        {
+            m_Weapons[index].gameObject.SetActive(value);
+        }
 
         /// <summary>
         /// Attach this to Each Inventory item OnButtonClick() event.
         /// </summary>
         /// <param name="index"></param>
-        public void ToggleActiveWeapon(int index)
+        public void SelectWeaponFromUI_OnButtonClick(int index)
         {
             for (int i = 0; i < m_Weapons.Length; i++) {
                 m_Weapons[i].GetChild(0).gameObject.SetActive(false);
@@ -46,9 +65,9 @@ namespace Game2D.Client
             // Image from the Right Joystick Knob handle
             m_EquippedWeapon_Image.sprite = m_WeaponsSprite[index];
 
-            m_EquippedWeapon_Index = index;
+            //m_EquippedWeapon_Index = index;
 
-            m_WeaponManagerMB.ChooseWeaponFromList(index);
+            m_WeaponManagerMB.UpdateWeaponOnPlayer(index);
         }
     }
 

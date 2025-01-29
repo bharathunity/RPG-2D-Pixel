@@ -45,6 +45,16 @@ namespace Game2D.Client
 
                 ArrowMB arrowObject = Instantiate(m_Arrow_Prefab, transform.position + transform.right, transform.rotation);
                 m_arrowInstantiated = true;
+                if (m_Player_SpriteRenderer.flipX)
+                {
+                    m_Animator.ResetTrigger("BowLTR");
+                    m_Animator.SetTrigger("BowLTR");
+                }
+                else
+                {
+                    m_Animator.ResetTrigger("BowRTL");
+                    m_Animator.SetTrigger("BowRTL");
+                }
                 StartCoroutine(ResetArrowInstantiatingFlag());
 
             }
@@ -52,10 +62,11 @@ namespace Game2D.Client
 
         public override void Rotate()
         {
-            Vector2 moveDirection = InputControllerMB.Instance.Input_Controller.BowArrow.Movement.ReadValue<Vector2>();
 
             if (!RightJoystickMB.Instance.InUse)
                 return;
+            
+            Vector2 moveDirection = InputControllerMB.Instance.Input_Controller.BowArrow.Movement.ReadValue<Vector2>();
 
             rotationDegree = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, rotationDegree);
@@ -96,7 +107,7 @@ namespace Game2D.Client
 
         IEnumerator ResetArrowInstantiatingFlag()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.4f);
             m_arrowInstantiated = false;
         }
 

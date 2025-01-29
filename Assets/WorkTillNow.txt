@@ -12,3 +12,20 @@
 
 >? Need to work on lobby scene.
 >? In the Lobby we have optiions to select the Levels. based on the selection particular Level will be loaded.
+
+
+Date : 27 JAN 2025
+Level
+>. Joystick are updated with the Arrow images for both left and right! 
+>. Player Health is disabled.
+
+Date : 28 JAN 2025
+>. Need to rework on weapon inventory system(UI and Sprite).
+>. Sword in the inventory UI is disabled and by default the player has sword in the Hand.
+
+Date : 29 JAN 2025
+>. Player has option to select sword or bow.
+>. Arrow releasing delay has reduced to 0.4s.
+>. Arrow upon releasing will play the forth and back animation for the bow, which gives effect of recoil.
+
+

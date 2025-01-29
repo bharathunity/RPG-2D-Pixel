@@ -45,7 +45,8 @@ namespace Game2D.Client
         // Start is called before the first frame update
         void Start()
         {
-            Invoke(nameof(ToggleLevelInfoPanel), 2);
+            // Toggle off Info panel after 4 seconds
+            Invoke(nameof(ToggleLevelInfoPanel), 4);
         }
         #endregion
 
