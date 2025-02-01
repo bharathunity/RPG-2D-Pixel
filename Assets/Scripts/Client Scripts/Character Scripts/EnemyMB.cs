@@ -20,6 +20,7 @@ namespace Game2D.Client
         /// </summary>
         Character m_Character;
 
+        [SerializeField] EnemyManagerMB             m_EnemyManagerMB_Script;
         [SerializeField] bool                       m_MoveEnemy;
         [SerializeField] byte                       m_HitCount = 0;
         [SerializeField] float                      m_Speed = 5;
@@ -50,6 +51,8 @@ namespace Game2D.Client
                                             Random.Range(-20, 20));
 
                 CalculateDistanceAsync();
+
+                m_EnemyManagerMB_Script = GameObject.FindObjectOfType<EnemyManagerMB>();
             }
             catch
             {
@@ -91,7 +94,6 @@ namespace Game2D.Client
                 return;
             }
             m_Direction = transform.position + (transform.position - collision.transform.position).normalized;
-
         }
 
         private void Update()
@@ -113,7 +115,6 @@ namespace Game2D.Client
                 m_Direction = new Vector2(Random.Range(-20, 20),
                                             Random.Range(-20, 20));
             }
-            
         }
 
         bool distanceCalculating = true;
@@ -138,7 +139,6 @@ namespace Game2D.Client
                     }
                 }
                 await Task.Delay(200); 
-                
             }
         }
 
@@ -147,7 +147,6 @@ namespace Game2D.Client
             distanceCalculating = false;    
             yield return new WaitForSeconds(0.02f);
             Destroy(gameObject);
-
         }
 
 

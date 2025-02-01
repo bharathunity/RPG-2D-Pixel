@@ -41,6 +41,7 @@ namespace Game2D.Client
 
         Player player;
 
+        [SerializeField] PlayerManagerMB    m_PlayerManagerMB_Script;
         [SerializeField] WeaponManagerMB    m_WeaponManagerMB;
         [SerializeField] Rigidbody2D        m_Rigidbody2D;
         [SerializeField] float              m_MoveSpeed = 1;
@@ -88,6 +89,8 @@ namespace Game2D.Client
                 //Debug.Log($"Character : {character}");
                 SetPlayerState(State.Idle);
                 CinemachineCameraManagerMB.Instance.UpdateTarget(transform);
+                m_PlayerManagerMB_Script = GameObject.FindObjectOfType<PlayerManagerMB>();
+                m_PlayerManagerMB_Script.LoadEnemiesComponenetIntoArray();
             }
             catch
             {

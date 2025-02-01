@@ -7,6 +7,7 @@
     <type fullname="Game2D.Client.EnemyPathFindingMB" preserve="all" />
     <type fullname="Game2D.Client.PlayerMB" preserve="all" />
     <type fullname="Game2D.Client.SwordMB" preserve="all" />
+    <type fullname="Game2D.Client.WeaponAiMB" preserve="all" />
     <type fullname="Game2D.Client.WeaponManagerMB" preserve="all" />
   </assembly>
   <assembly fullname="Cinemachine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">

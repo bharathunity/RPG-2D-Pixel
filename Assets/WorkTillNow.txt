@@ -28,4 +28,7 @@ Date : 29 JAN 2025
 >. Arrow releasing delay has reduced to 0.4s.
 >. Arrow upon releasing will play the forth and back animation for the bow, which gives effect of recoil.
 
+Date : 01 FEB 2025
+>. PlayerManagerMB script could able to find the closest enemy.
+
 

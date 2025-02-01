@@ -13,7 +13,9 @@ namespace Game2D.Client
         {
             Start = 0,
             Lobby = 1,
-            Level1 = 2
+            Common = 2,
+            Level1 = 3,
+            Level2 = 4
         }
 
         [SerializeField] Name m_ToSceneName;
